@@ -16,6 +16,23 @@ pipeline {
                 hadoLint()
             }
         }
+        stage('Checkov Scan') {
+            steps {
+                checkovDockerScan([
+                    customPolicy: 'CUSTOM_DOCKER_001'
+                ])
+            }
+        }
+        stage('ECR Login') {
+            steps {
+                script {
+                    ecrRegistry.ecrLogin(
+                        "${ECR_REGISTRY}",
+                        "${awsRegion}"
+                    )
+                }
+            }
+        }
         stage('Build Docker Image') {
             agent {
                 docker {
@@ -42,6 +59,12 @@ pipeline {
             }
         }
         stage('Run Trivy Scan') {
+            agent {
+                docker {
+                    image "${ECR_REGISTRY}/base-image:${versionTag}"
+                    args '-v /var/run/docker.sock:/var/run/docker.sock --privileged '
+                }
+            }
             steps {
                 script {
                     try {
@@ -55,6 +78,11 @@ pipeline {
             }
         }
         stage('Send Trivy Report') {
+            agent {
+                docker {
+                    image "${ECR_REGISTRY}/base-image:${versionTag}"
+                }
+            }
             steps {
                 script {
                     try {
@@ -70,10 +98,10 @@ pipeline {
             }
         }
         stage('Push Image To ECR') {
-            when{
+            when {
                 branch 'main'
             }
-            steps{
+            steps {
                 script {
                     try {
                         ecrRegistry(
