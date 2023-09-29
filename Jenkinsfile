@@ -10,33 +10,9 @@ pipeline {
     }
 
     stages {
-        stage('Build Docker Image') {
+        stage('Lint Dockerfile') {
             steps {
-                script {
-                    try {
-                        dockerBuild(
-                            imageName: 'test'
-                        )
-                    } catch (Exception buildError) {
-                        currentBuild.result = 'FAILURE'
-                        error("Failed to build Docker image: ${buildError}")
-                    }
-                }
-            }
-        }
-        stage('Push Image To ECR') {
-            steps {
-                script {
-                    try {
-                        ecrRegistry(
-                            imageName: 'test',
-                            repoName: 'base-image',
-                        )
-                    } catch (Exception pushError) {
-                        currentBuild.result = 'FAILURE'
-                        error("Failed to push image to ECR: ${pushError}")
-                    }
-                }
+                hadoLint()
             }
         }
     }
