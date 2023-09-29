@@ -11,7 +11,7 @@ pipeline {
                 script {
                     try {
                         dockerBuild(
-                            imageName: test
+                            imageName: 'test'
                         )
                     } catch (Exception buildError) {
                         currentBuild.result = 'FAILURE'
@@ -25,8 +25,8 @@ pipeline {
                 script {
                     try {
                         ecrRegistry(
-                            imageName: test,
-                            repoName: base-image,
+                            imageName: 'test',
+                            repoName: 'base-image',
                         )
                     } catch (Exception pushError) {
                         currentBuild.result = 'FAILURE'
