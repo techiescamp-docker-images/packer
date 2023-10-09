@@ -2,7 +2,8 @@ FROM ubuntu:20.04
 
 RUN apt-get update && \
     apt-get install -y unzip wget software-properties-common && \
-    apt-add-repository --yes --update ppa:ansible/ansible && \
+    apt-add-repository --yes ppa:ansible/ansible && \
+    apt-get update && \
     apt-get install -y ansible && \
     echo "[defaults]" >> /etc/ansible/ansible.cfg && \
     echo "remote_tmp = /tmp/.ansible" >> /etc/ansible/ansible.cfg && \
