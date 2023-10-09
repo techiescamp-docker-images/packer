@@ -12,4 +12,5 @@ RUN apt-get update && \
     rm packer_1.9.4_linux_amd64.zip && \
     apt-get remove -y wget && \
     apt-get autoremove -y && \
-    apt-get clean
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
