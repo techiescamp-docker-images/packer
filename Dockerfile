@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -7,6 +7,8 @@ RUN apt-get update && \
     apt-add-repository --yes ppa:ansible/ansible && \
     apt-get update && \
     apt-get install -y ansible && \
+    echo "[defaults]" >> /etc/ansible/ansible.cfg && \
+    echo "remote_tmp = /tmp/.ansible" >> /etc/ansible/ansible.cfg && \
     wget https://releases.hashicorp.com/packer/1.9.4/packer_1.9.4_linux_amd64.zip && \
     unzip packer_1.9.4_linux_amd64.zip -d /usr/local/bin/ && \
     rm packer_1.9.4_linux_amd64.zip && \
