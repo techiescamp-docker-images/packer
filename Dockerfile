@@ -5,7 +5,7 @@ USER root
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get install -y unzip wget software-properties-common && \
+    apt-get install -y unzip wget software-properties-common awscli && \
     apt-add-repository --yes ppa:ansible/ansible && \
     apt-get update && \
     apt-get install -y ansible && \
