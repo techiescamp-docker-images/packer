@@ -1,5 +1,7 @@
 FROM ubuntu:20.04
 
+USER root
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
