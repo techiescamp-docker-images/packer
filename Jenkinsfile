@@ -87,8 +87,5 @@ pipeline {
                 emailNotification.sendEmailNotification('failure', 'aswin@crunchops.com')
             }
         }
-        always {
-            cleanWs()
-        }
     }
 }
